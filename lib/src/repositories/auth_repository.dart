@@ -8,16 +8,19 @@ class AuthRepository {
   Future<bool> login() async {
     bool response = false;
     final url = getFitbitUrl();
-    final callBackUrlScheme = "mi-cameo.firebaseapp";
+    final callBackUrlScheme = "francisforte.cl/callback";
     try {
       final result = await FlutterWebAuth.authenticate(
           url: url, callbackUrlScheme: callBackUrlScheme);
       final urlParsed = result.replaceFirst("#", "?");
-      final String token = Uri.parse(urlParsed).queryParameters['access_token'].toString();
-      final String userId = Uri.parse(urlParsed).queryParameters['user_id'].toString();
+      final String token =
+          Uri.parse(urlParsed).queryParameters['access_token'].toString();
+      final String userId =
+          Uri.parse(urlParsed).queryParameters['user_id'].toString();
       _prefs.token = token;
       _prefs.userId = userId;
       response = true;
+      print(_prefs);
     } on PlatformException catch (e) {
       print(e);
     }
