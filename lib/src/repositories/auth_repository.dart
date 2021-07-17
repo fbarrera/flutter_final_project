@@ -8,7 +8,7 @@ class AuthRepository {
   Future<bool> login() async {
     bool response = false;
     final url = getFitbitUrl();
-    final callBackUrlScheme = "francisforte.cl/callback";
+    final callBackUrlScheme = "https://francisforte.cl/callback/";
     try {
       final result = await FlutterWebAuth.authenticate(
           url: url, callbackUrlScheme: callBackUrlScheme);
