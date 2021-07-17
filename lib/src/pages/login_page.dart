@@ -1,9 +1,14 @@
+import 'package:final_project/src/common/navigation_methods.dart';
+import 'package:final_project/src/pages/base_home.dart';
+import 'package:final_project/src/repositories/auth_repository.dart';
+import 'package:final_project/src/shared_preferences/user_preferences.dart';
 import 'package:final_project/src/widgets/buttom_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
+  AuthRepository _authRepository = AuthRepository();
+  UserPreferences _prefs = UserPreferences();
+  LoginPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,12 +34,25 @@ class LoginPage extends StatelessWidget {
                     fontWeight: FontWeight.w500),
               ),
             ),
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
             ButtomWidget(
               text: 'Enlaza tu reloj',
-              onPresed: (){},
+              onPresed: () async {
+                if (_prefs.token.isNotEmpty) {
+                  pushAndreplaceTopage(context, BaseHomePage());
+                } else {
+                  final data = await _authRepository.login();
+                  if (data) {
+                    pushAndreplaceTopage(context, BaseHomePage());
+                  }
+                }
+              },
             ),
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
           ],
         ),
       ),
